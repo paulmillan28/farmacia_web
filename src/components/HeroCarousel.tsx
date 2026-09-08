@@ -20,7 +20,7 @@ export default function HeroCarousel({ slides = [] }: { slides?: Slide[] }) {
   const itemsToDisplay = slides.length > 0 ? slides : [
     {
       id: 'default-1',
-      title: 'Bienvenido a Farmacia Mía',
+      title: 'Bienvenido a Farmacia WERITO POWER',
       description: 'Encuentra las mejores ofertas y productos para tu salud.',
       button_text: null,
       button_link: null,
