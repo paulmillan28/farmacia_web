@@ -1,6 +1,7 @@
+import Link from 'next/link'
 import { createSection } from '@/modules/sections/actions'
 import { getPharmacySections } from '@/modules/sections/services'
-import Link from 'next/link'
+import SectionList from '@/modules/sections/components/SectionList'
 
 export default async function SectionsAdminPage() {
   const sections = await getPharmacySections()
@@ -43,19 +44,14 @@ export default async function SectionsAdminPage() {
           </button>
         </form>
 
-        {/* Lista de Secciones */}
+        {/* Lista de Secciones con Funcionalidad de Editar y Borrar */}
         <div className="bg-white p-6 rounded-xl shadow-sm space-y-3">
           <h2 className="text-lg font-semibold text-slate-700">Secciones Existentes</h2>
-          <ul className="divide-y divide-slate-200">
-            {sections.map((section) => (
-              <li key={section.id} className="py-3 flex justify-between items-center">
-                <div>
-                  <p className="font-medium text-slate-800">{section.title}</p>
-                  <p className="text-xs text-slate-500">{section.slug}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
+          {sections.length > 0 ? (
+            <SectionList sections={sections} />
+          ) : (
+            <p className="text-sm text-slate-500">No hay secciones registradas aún.</p>
+          )}
         </div>
       </div>
     </div>

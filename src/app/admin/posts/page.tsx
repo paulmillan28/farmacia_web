@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { createPost } from '@/modules/posts/actions'
 import { getPharmacySections } from '@/modules/sections/services'
+import PostList from '@/modules/posts/components/PostList'
 
 export default async function PostsAdminPage() {
   const sections = await getPharmacySections()
@@ -21,9 +22,9 @@ export default async function PostsAdminPage() {
 
         <h1 className="text-2xl font-bold text-slate-800">Gestión de Publicaciones</h1>
 
-        {/* Formulario de Creación (se remueve encType ya que React lo gestiona automáticamente) */}
-        <form 
-          action={createPost} 
+        {/* Formulario de Creación */}
+        <form
+          action={createPost}
           className="bg-white p-6 rounded-xl shadow-sm space-y-4"
         >
           <h2 className="text-lg font-semibold text-slate-700">Nueva Publicación</h2>
@@ -59,7 +60,6 @@ export default async function PostsAdminPage() {
             />
           </div>
 
-          {/* Subida de Imagen desde Archivo Local */}
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1">
               Imagen del Producto / Publicación (Opcional)
@@ -93,34 +93,11 @@ export default async function PostsAdminPage() {
           </button>
         </form>
 
-        {/* Lista de Publicaciones */}
+        {/* Lista de Publicaciones con Edición y Borrado */}
         <div className="bg-white p-6 rounded-xl shadow-sm space-y-3">
           <h2 className="text-lg font-semibold text-slate-700">Publicaciones Creadas</h2>
           {posts && posts.length > 0 ? (
-            <ul className="divide-y divide-slate-200">
-              {posts.map((post: any) => (
-                <li key={post.id} className="py-3 flex justify-between items-center">
-                  <div className="flex items-center gap-3">
-                    {post.image_url && (
-                      <img 
-                        src={post.image_url} 
-                        alt={post.title} 
-                        className="w-12 h-12 object-cover rounded-lg"
-                      />
-                    )}
-                    <div>
-                      <p className="font-medium text-slate-800">{post.title}</p>
-                      <p className="text-xs text-slate-500">
-                        Sección: {post.sections?.title || 'Sin sección'}
-                      </p>
-                    </div>
-                  </div>
-                  <span className="text-xs px-2 py-1 rounded bg-emerald-100 text-emerald-800">
-                    Publicado
-                  </span>
-                </li>
-              ))}
-            </ul>
+            <PostList posts={posts} sections={sections} />
           ) : (
             <p className="text-sm text-slate-500">Aún no has creado publicaciones.</p>
           )}
