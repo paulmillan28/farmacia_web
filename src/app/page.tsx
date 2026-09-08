@@ -1,8 +1,21 @@
 import Link from 'next/link'
+import { createClient } from '@/lib/supabase/server'
 import { getPharmacySections } from '@/modules/sections/services'
+import HeroCarousel from '@/components/HeroCarousel'
 
 export default async function HomePage() {
   const sections = await getPharmacySections()
+  const supabase = await createClient()
+
+  // Consulta los slides ordenados desde Supabase
+  const { data: slides, error } = await supabase
+    .from('slides')
+    .select('*')
+    .order('sort_order', { ascending: true })
+
+  if (error) {
+    console.error('Error al obtener los slides:', error.message)
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
@@ -18,6 +31,9 @@ export default async function HomePage() {
           </Link>
         </div>
       </header>
+
+      {/* Carrusel Dinámico */}
+      <HeroCarousel slides={slides || []} />
 
       {/* Hero Section */}
       <section className="bg-emerald-600 text-white py-12 md:py-20 px-4">
