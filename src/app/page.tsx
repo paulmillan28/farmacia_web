@@ -19,10 +19,16 @@ export default async function HomePage() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
-      {/* Header / Navbar */}
+      {/* Header / Navbar con Logo */}
       <header className="sticky top-0 z-50 bg-white border-b border-slate-200">
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-          <h1 className="text-xl font-bold text-emerald-600">Farmacia Mía</h1>
+          <Link href="/" className="flex items-center gap-2">
+            <img
+              src="/logo.jpg"
+              alt="Farmacia Mía"
+              className="h-16 w-auto object-contain"
+            />
+          </Link>
           <Link
             href="/login"
             className="px-4 py-2 text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg transition-colors"
@@ -100,7 +106,7 @@ export default async function HomePage() {
 
       {/* Footer */}
       <footer className="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">
-        © {new Date().getFullYear()} Farmacia. Todos los derechos reservados.
+        © {new Date().getFullYear()} Farmacia Mía. Todos los derechos reservados.
       </footer>
     </div>
   )
