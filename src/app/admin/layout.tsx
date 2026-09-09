@@ -14,7 +14,7 @@ export default function AdminLayout({
           <Link href="/admin" className="text-lg font-bold text-emerald-400">
             Panel Admin
           </Link>
-          <p className="text-xs text-slate-400 mt-1">Farmacia Mía</p>
+          <p className="text-xs text-slate-400 mt-1">Farmacia FARMA&MED </p>
         </div>
 
         <nav className="flex-1 p-4 space-y-1">

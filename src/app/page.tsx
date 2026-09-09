@@ -35,7 +35,7 @@ export default async function HomePage() {
           <Link href="/" className="flex items-center gap-2">
             <img
               src={logoUrl}
-              alt="Farmacia Mía"
+              alt="Farmacia FARMA&MED "
               className="h-14 md:h-16 w-auto object-contain"
             />
           </Link>
@@ -92,7 +92,7 @@ export default async function HomePage() {
 
       {/* Footer */}
       <footer className="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">
-        © {new Date().getFullYear()} Farmacia Mía. Todos los derechos reservados.
+        © {new Date().getFullYear()} Farmacia FARMA&MED . Todos los derechos reservados.
       </footer>
     </div>
   )

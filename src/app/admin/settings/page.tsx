@@ -19,7 +19,7 @@ export default async function SettingsAdminPage() {
       <div className="border-b border-slate-200 pb-4">
         <h1 className="text-2xl font-bold text-slate-900">Configuración del Sitio</h1>
         <p className="text-sm text-slate-500 mt-1">
-          Administra la identidad visual y configuraciones generales de Farmacia Mía.
+          Administra la identidad visual y configuraciones generales de Farmacia FARMA&MED .
         </p>
       </div>
 

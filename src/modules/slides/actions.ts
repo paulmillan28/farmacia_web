@@ -1,111 +1,154 @@
 'use server'
 
-import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
+import { createClient } from '@/lib/supabase/server'
 
+// CREAR SLIDE
 export async function createSlide(formData: FormData) {
   const supabase = await createClient()
 
   const title = formData.get('title') as string
-  const description = formData.get('description') as string
-  const button_text = (formData.get('button_text') as string) || null
-  const button_link = (formData.get('button_link') as string) || null
-  const sort_order = parseInt(formData.get('sort_order') as string) || 0
-  const imageFile = formData.get('image_file') as File | null
+  const subtitle = formData.get('subtitle') as string
+  const link = formData.get('link') as string
+  const file = formData.get('image') as File
 
-  let image_url = ''
+  if (!file || file.size === 0) {
+    throw new Error('Debes seleccionar una imagen para el slide.')
+  }
 
-  if (imageFile && imageFile.size > 0) {
-    const fileExt = imageFile.name.split('.').pop()
+  // Subir imagen al Bucket 'slides'
+  const fileExt = file.name.split('.').pop()
+  const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${fileExt}`
+  const filePath = `slides/${fileName}`
+
+  const { error: uploadError } = await supabase.storage
+    .from('slides')
+    .upload(filePath, file)
+
+  if (uploadError) {
+    throw new Error(`Error al subir la imagen: ${uploadError.message}`)
+  }
+
+  const { data: publicUrlData } = supabase.storage
+    .from('slides')
+    .getPublicUrl(filePath)
+
+  const image_url = publicUrlData.publicUrl
+
+  // Insertar en la base de datos
+  const { error: insertError } = await supabase.from('slides').insert([
+    {
+      title,
+      subtitle: subtitle || null,
+      link: link || null,
+      image_url,
+    },
+  ])
+
+  if (insertError) {
+    throw new Error(`Error al guardar el slide: ${insertError.message}`)
+  }
+
+  revalidatePath('/admin/slides')
+  revalidatePath('/')
+}
+
+// ACTUALIZAR SLIDE
+export async function updateSlide(formData: FormData) {
+  const supabase = await createClient()
+
+  const id = formData.get('id') as string
+  const title = formData.get('title') as string
+  const subtitle = formData.get('subtitle') as string
+  const link = formData.get('link') as string
+  const file = formData.get('image') as File
+  const currentImageUrl = formData.get('current_image_url') as string
+
+  let image_url = currentImageUrl
+
+  // Si el usuario adjuntó una nueva imagen, subirla
+  if (file && file.size > 0) {
+    const fileExt = file.name.split('.').pop()
     const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${fileExt}`
     const filePath = `slides/${fileName}`
 
     const { error: uploadError } = await supabase.storage
-      .from('posts-images')
-      .upload(filePath, imageFile)
+      .from('slides')
+      .upload(filePath, file)
 
-    if (uploadError) throw new Error(`Error al subir la imagen: ${uploadError.message}`)
+    if (uploadError) {
+      throw new Error(`Error al subir la imagen: ${uploadError.message}`)
+    }
 
     const { data: publicUrlData } = supabase.storage
-      .from('posts-images')
+      .from('slides')
       .getPublicUrl(filePath)
 
     image_url = publicUrlData.publicUrl
   }
 
-  const { error } = await supabase.from('slides').insert([
-    { title, description, button_text, button_link, image_url, sort_order },
-  ])
+  const { error: updateError } = await supabase
+    .from('slides')
+    .update({
+      title,
+      subtitle: subtitle || null,
+      link: link || null,
+      image_url,
+    })
+    .eq('id', id)
 
-  if (error) throw new Error(error.message)
+  if (updateError) {
+    throw new Error(`Error al actualizar el slide: ${updateError.message}`)
+  }
 
   revalidatePath('/admin/slides')
   revalidatePath('/')
 }
-export async function updateSlide(formData: FormData) {
+
+// ELIMINAR SLIDE
+export async function deleteSlide(id: string) {
+  const supabase = await createClient()
+
+  const { error } = await supabase.from('slides').delete().eq('id', id)
+
+  if (error) {
+    throw new Error(`Error al eliminar el slide: ${error.message}`)
+  }
+
+  revalidatePath('/admin/slides')
+  revalidatePath('/')
+}
+
+// Agregar a src/modules/slides/actions.ts
+
+// REORDENAR SLIDES
+export async function reorderSlides(slideId: string, direction: 'up' | 'down') {
     const supabase = await createClient()
   
-    const id = formData.get('id') as string
-    const title = formData.get('title') as string
-    const description = formData.get('description') as string
-    
-    // Convertir cadenas vacías ("") a null
-    const rawButtonText = formData.get('button_text') as string
-    const button_text = rawButtonText?.trim() ? rawButtonText.trim() : null
-  
-    const rawButtonLink = formData.get('button_link') as string
-    const button_link = rawButtonLink?.trim() ? rawButtonLink.trim() : null
-  
-    const sort_order = parseInt(formData.get('sort_order') as string) || 0
-    const current_image_url = formData.get('current_image_url') as string
-    const imageFile = formData.get('image_file') as File | null
-  
-    let image_url = current_image_url
-  
-    if (imageFile && imageFile.size > 0) {
-      const fileExt = imageFile.name.split('.').pop()
-      const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${fileExt}`
-      const filePath = `slides/${fileName}`
-  
-      const { error: uploadError } = await supabase.storage
-        .from('posts-images')
-        .upload(filePath, imageFile)
-  
-      if (uploadError) throw new Error(`Error al subir la imagen: ${uploadError.message}`)
-  
-      const { data: publicUrlData } = supabase.storage
-        .from('posts-images')
-        .getPublicUrl(filePath)
-  
-      image_url = publicUrlData.publicUrl
-    }
-  
-    const { error } = await supabase
+    // Obtener todos los slides ordenados
+    const { data: slides, error } = await supabase
       .from('slides')
-      .update({ 
-        title, 
-        description, 
-        button_text, 
-        button_link, 
-        image_url, 
-        sort_order 
-      })
-      .eq('id', id)
+      .select('id, sort_order')
+      .order('sort_order', { ascending: true })
   
-    if (error) throw new Error(error.message)
+    if (error || !slides) return
+  
+    const currentIndex = slides.findIndex((s) => s.id === slideId)
+    if (currentIndex === -1) return
+  
+    const targetIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1
+    if (targetIndex < 0 || targetIndex >= slides.length) return
+  
+    const currentSlide = slides[currentIndex]
+    const targetSlide = slides[targetIndex]
+  
+    // Intercambiar los valores de sort_order
+    const currentOrder = currentSlide.sort_order ?? currentIndex
+    const targetOrder = targetSlide.sort_order ?? targetIndex
+  
+    await supabase.from('slides').update({ sort_order: targetOrder }).eq('id', currentSlide.id)
+    await supabase.from('slides').update({ sort_order: currentOrder }).eq('id', targetSlide.id)
   
     revalidatePath('/admin/slides')
     revalidatePath('/')
   }
-
-export async function deleteSlide(formData: FormData) {
-  const supabase = await createClient()
-  const id = formData.get('id') as string
-
-  const { error } = await supabase.from('slides').delete().eq('id', id)
-
-  if (error) throw new Error(error.message)
-
-  revalidatePath('/admin/slides')
-  revalidatePath('/')
-}

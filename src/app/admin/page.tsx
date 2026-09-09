@@ -7,7 +7,7 @@ export default function AdminDashboardPage() {
       <div>
         <h1 className="text-2xl font-bold text-slate-900">Panel de Administración</h1>
         <p className="text-sm text-slate-500 mt-1">
-          Gestiona el contenido, imágenes y configuración de Farmacia Mía.
+          Gestiona el contenido, imágenes y configuración de Farmacia FARMA&MED 
         </p>
       </div>
 
