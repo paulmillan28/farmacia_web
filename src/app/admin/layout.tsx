@@ -2,7 +2,8 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
+import { createClient } from '@/lib/supabase/client'
 import {
   LayoutDashboard,
   FolderTree,
@@ -12,6 +13,7 @@ import {
   Menu,
   X,
   ExternalLink,
+  LogOut,
 } from 'lucide-react'
 
 export default function AdminLayout({
@@ -21,6 +23,7 @@ export default function AdminLayout({
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const pathname = usePathname()
+  const router = useRouter()
 
   const navItems = [
     { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
@@ -29,6 +32,13 @@ export default function AdminLayout({
     { name: 'Carrusel (Slides)', href: '/admin/slides', icon: ImageIcon },
     { name: 'Configuración / Logo', href: '/admin/settings', icon: Settings },
   ]
+
+  const handleSignOut = async () => {
+    const supabase = createClient()
+    await supabase.auth.signOut()
+    router.push('/login')
+    router.refresh()
+  }
 
   return (
     <div className="min-h-screen bg-slate-100 flex flex-col md:flex-row">
@@ -105,7 +115,7 @@ export default function AdminLayout({
         </div>
 
         {/* Footer del Sidebar */}
-        <div className="p-4 border-t border-slate-800">
+        <div className="p-4 border-t border-slate-800 space-y-2">
           <Link
             href="/"
             target="_blank"
@@ -114,6 +124,14 @@ export default function AdminLayout({
             <ExternalLink className="w-3.5 h-3.5" />
             Ver sitio público
           </Link>
+
+          <button
+            onClick={handleSignOut}
+            className="flex items-center justify-center gap-2 w-full py-2.5 px-4 bg-slate-800 hover:bg-red-950/50 hover:border-red-800/50 border border-transparent text-xs font-medium text-slate-300 hover:text-red-400 rounded-lg transition-colors"
+          >
+            <LogOut className="w-3.5 h-3.5" />
+            Cerrar Sesión
+          </button>
         </div>
       </aside>
 
