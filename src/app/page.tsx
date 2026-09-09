@@ -21,12 +21,12 @@ export default async function HomePage() {
     <div className="min-h-screen bg-slate-50 text-slate-900">
       {/* Header / Navbar con Logo */}
       <header className="sticky top-0 z-50 bg-white border-b border-slate-200">
-        <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+        <div className="max-w-6xl mx-auto px-4 h-20 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             <img
-              src="/logo.jpg"
+              src="/logo.png"
               alt="Farmacia Mía"
-              className="h-16 w-auto object-contain"
+              className="h-14 md:h-16 w-auto object-contain"
             />
           </Link>
           <Link
@@ -70,14 +70,14 @@ export default async function HomePage() {
                 )}
               </div>
 
-              {/* Grid Responsivo de Publicaciones */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {/* Scroll Horizontal de Publicaciones */}
+              <div className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-slate-300">
                 {section.posts
                   ?.filter((post: any) => post.is_published)
                   .map((post: any) => (
                     <article
                       key={post.id}
-                      className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col hover:shadow-md transition-shadow"
+                      className="min-w-[280px] sm:min-w-[320px] max-w-[320px] bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col hover:shadow-md transition-shadow snap-start flex-shrink-0"
                     >
                       {post.image_url && (
                         <img
