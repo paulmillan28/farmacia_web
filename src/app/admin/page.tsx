@@ -1,76 +1,92 @@
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase/server'
+import { FolderTree, FileText, Image as ImageIcon, Settings } from 'lucide-react'
 
-export default async function AdminDashboardPage() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-
+export default function AdminDashboardPage() {
   return (
-    <div className="min-h-screen bg-slate-100 p-6">
-      <div className="max-w-4xl mx-auto space-y-6">
-        {/* Encabezado */}
-        <div className="bg-white p-6 rounded-xl shadow-sm flex justify-between items-center">
-          <div>
-            <h1 className="text-2xl font-bold text-slate-800">Panel de Administración</h1>
-            <p className="text-sm text-slate-500">Sesión activa: {user?.email}</p>
+    <div className="space-y-8">
+      <div>
+        <h1 className="text-2xl font-bold text-slate-900">Panel de Administración</h1>
+        <p className="text-sm text-slate-500 mt-1">
+          Gestiona el contenido, imágenes y configuración de Farmacia Mía.
+        </p>
+      </div>
+
+      {/* Grid de Accesos Rápidos */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Tarjeta 1: Secciones */}
+        <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between space-y-4">
+          <div className="space-y-2">
+            <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
+              <FolderTree className="w-5 h-5" />
+            </div>
+            <h2 className="text-lg font-bold text-slate-900">Secciones</h2>
+            <p className="text-sm text-slate-500">
+              Crea y administra las secciones de la farmacia.
+            </p>
           </div>
           <Link
-            href="/"
-            className="text-sm font-medium text-emerald-600 hover:underline"
+            href="/admin/sections"
+            className="w-full text-center py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-sm rounded-lg transition-colors block"
           >
-            Ver sitio público →
+            Gestionar Secciones
           </Link>
         </div>
 
-        {/* Tarjetas de Acceso */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Secciones */}
-          <div className="bg-white p-6 rounded-xl shadow-sm space-y-3 flex flex-col justify-between">
-            <div>
-              <h2 className="text-lg font-semibold text-slate-800">Secciones</h2>
-              <p className="text-sm text-slate-500 mt-1">
-                Crea y administra las secciones de la farmacia.
-              </p>
+        {/* Tarjeta 2: Publicaciones */}
+        <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between space-y-4">
+          <div className="space-y-2">
+            <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
+              <FileText className="w-5 h-5" />
             </div>
-            <Link
-              href="/admin/sections"
-              className="inline-block text-center px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-sm font-medium transition-colors"
-            >
-              Gestionar Secciones
-            </Link>
+            <h2 className="text-lg font-bold text-slate-900">Publicaciones</h2>
+            <p className="text-sm text-slate-500">
+              Gestiona los artículos y promociones por sección.
+            </p>
           </div>
+          <Link
+            href="/admin/posts"
+            className="w-full text-center py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-sm rounded-lg transition-colors block"
+          >
+            Gestionar Publicaciones
+          </Link>
+        </div>
 
-          {/* Publicaciones */}
-          <div className="bg-white p-6 rounded-xl shadow-sm space-y-3 flex flex-col justify-between">
-            <div>
-              <h2 className="text-lg font-semibold text-slate-800">Publicaciones</h2>
-              <p className="text-sm text-slate-500 mt-1">
-                Gestiona los artículos y promociones por sección.
-              </p>
+        {/* Tarjeta 3: Carrusel */}
+        <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between space-y-4">
+          <div className="space-y-2">
+            <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
+              <ImageIcon className="w-5 h-5" />
             </div>
-            <Link
-              href="/admin/posts"
-              className="inline-block text-center px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-sm font-medium transition-colors"
-            >
-              Gestionar Publicaciones
-            </Link>
+            <h2 className="text-lg font-bold text-slate-900">Carrusel</h2>
+            <p className="text-sm text-slate-500">
+              Administra los banners y diapositivas del carrusel principal.
+            </p>
           </div>
+          <Link
+            href="/admin/slides"
+            className="w-full text-center py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-sm rounded-lg transition-colors block"
+          >
+            Gestionar Carrusel
+          </Link>
+        </div>
 
-          {/* Carrusel / Slides */}
-          <div className="bg-white p-6 rounded-xl shadow-sm space-y-3 flex flex-col justify-between">
-            <div>
-              <h2 className="text-lg font-semibold text-slate-800">Carrusel</h2>
-              <p className="text-sm text-slate-500 mt-1">
-                Administra los banners y diapositivas del carrusel principal.
-              </p>
+        {/* Tarjeta 4: Configuración y Logo */}
+        <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between space-y-4">
+          <div className="space-y-2">
+            <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
+              <Settings className="w-5 h-5" />
             </div>
-            <Link
-              href="/admin/slides"
-              className="inline-block text-center px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-sm font-medium transition-colors"
-            >
-              Gestionar Carrusel
-            </Link>
+            <h2 className="text-lg font-bold text-slate-900">Logo y Ajustes</h2>
+            <p className="text-sm text-slate-500">
+              Sube y cambia el logo principal del sitio web.
+            </p>
           </div>
+          <Link
+            href="/admin/settings"
+            className="w-full text-center py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-sm rounded-lg transition-colors block"
+          >
+            Cambiar Logo
+          </Link>
         </div>
       </div>
     </div>

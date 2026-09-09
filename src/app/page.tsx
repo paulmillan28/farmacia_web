@@ -9,23 +9,32 @@ export default async function HomePage() {
   const supabase = await createClient()
 
   // Consulta los slides ordenados desde Supabase
-  const { data: slides, error } = await supabase
+  const { data: slides, error: slidesError } = await supabase
     .from('slides')
     .select('*')
     .order('sort_order', { ascending: true })
 
-  if (error) {
-    console.error('Error al obtener los slides:', error.message)
+  if (slidesError) {
+    console.error('Error al obtener los slides:', slidesError.message)
   }
+
+  // Consulta la configuración del logo dinámico desde Supabase
+  const { data: logoSetting } = await supabase
+    .from('site_settings')
+    .select('value')
+    .eq('key', 'site_logo')
+    .single()
+
+  const logoUrl = logoSetting?.value || '/logo.png'
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
-      {/* Header / Navbar con Logo */}
+      {/* Header / Navbar con Logo Dinámico */}
       <header className="sticky top-0 z-50 bg-white border-b border-slate-200">
         <div className="max-w-6xl mx-auto px-4 h-20 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             <img
-              src="/logo.png"
+              src={logoUrl}
               alt="Farmacia Mía"
               className="h-14 md:h-16 w-auto object-contain"
             />
