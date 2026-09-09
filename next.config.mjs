@@ -1,14 +1,13 @@
-
-  /** @type {import('next').NextConfig} */
+/** @type {import('next').NextConfig} */
 const nextConfig = {
-    typescript: {
-      // ⚠️ Advertencia: Permite despegues aunque existan errores de tipos
-      ignoreBuildErrors: true,
+    experimental: {
+      serverActions: {
+        bodySizeLimit: '10mb', // Ajusta el límite de tamaño (ej. '10mb', '20mb')
+      },
     },
-    eslint: {
-      // Opcional: ignora advertencias de linter durante el build
-      ignoreDuringBuilds: true,
-    },
-  }
+  };
   
-  module.exports = nextConfig
+  export default nextConfig;
+
+
+  

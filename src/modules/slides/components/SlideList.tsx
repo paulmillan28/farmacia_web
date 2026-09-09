@@ -128,18 +128,9 @@ export default function SlideList({ slides }: { slides: Slide[] }) {
                   Editar
                 </button>
 
-                <form action={deleteSlide}>
-                  <input type="hidden" name="id" value={slide.id} />
-                  <button
-                    type="submit"
-                    onClick={(e) => {
-                      if (!confirm('¿Seguro que deseas borrar este slide?')) e.preventDefault()
-                    }}
-                    className="px-3 py-1 text-xs text-red-600 bg-red-50 hover:bg-red-100 border border-red-200 rounded"
-                  >
-                    Borrar
-                  </button>
-                </form>
+                <form action={deleteSlide.bind(null, slide.id)}>
+  <button type="submit">Eliminar</button>
+</form>
               </div>
             </div>
           )}
