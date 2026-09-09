@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { getPharmacySections } from '@/modules/sections/services'
 import HeroCarousel from '@/components/HeroCarousel'
+import SectionSearch from '@/components/SectionSearch'
 
 export default async function HomePage() {
   const sections = await getPharmacySections()
@@ -53,7 +54,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Contenido Dinámico: Secciones y Publicaciones */}
+      {/* Contenido Dinámico: Secciones con Buscador y Modal Integrado */}
       <main className="max-w-6xl mx-auto px-4 py-10 space-y-12">
         {sections.length === 0 ? (
           <div className="text-center py-12 text-slate-500">
@@ -70,35 +71,11 @@ export default async function HomePage() {
                 )}
               </div>
 
-              {/* Scroll Horizontal de Publicaciones */}
-              <div className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-slate-300">
-                {section.posts
-                  ?.filter((post: any) => post.is_published)
-                  .map((post: any) => (
-                    <article
-                      key={post.id}
-                      className="min-w-[280px] sm:min-w-[320px] max-w-[320px] bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col hover:shadow-md transition-shadow snap-start flex-shrink-0"
-                    >
-                      {post.image_url && (
-                        <img
-                          src={post.image_url}
-                          alt={post.title}
-                          className="h-48 w-full object-cover"
-                        />
-                      )}
-                      <div className="p-5 flex-1 flex flex-col justify-between space-y-3">
-                        <div>
-                          <h4 className="font-semibold text-lg text-slate-900 line-clamp-1">
-                            {post.title}
-                          </h4>
-                          <p className="text-slate-600 text-sm mt-2 line-clamp-3">
-                            {post.content}
-                          </p>
-                        </div>
-                      </div>
-                    </article>
-                  ))}
-              </div>
+              {/* Componente cliente con buscador por sección, scroll lateral y modal */}
+              <SectionSearch
+                posts={section.posts || []}
+                sectionTitle={section.title}
+              />
             </section>
           ))
         )}
