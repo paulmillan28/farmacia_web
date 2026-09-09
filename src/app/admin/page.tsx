@@ -3,9 +3,8 @@ import { FolderTree, FileText, Image as ImageIcon, Settings } from 'lucide-react
 
 export default function AdminDashboardPage() {
   return (
-    <div className="space-y-6 sm:space-y-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-      {/* Título de la sección */}
-      <div className="border-b border-slate-200 pb-4">
+    <div className="space-y-6 sm:space-y-8 max-w-7xl mx-auto">
+      <div>
         <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-slate-900 tracking-tight">
           Panel de Administración
         </h1>
@@ -14,9 +13,9 @@ export default function AdminDashboardPage() {
         </p>
       </div>
 
-      {/* Grid Responsivo de Accesos Rápidos */}
+      {/* Grid Responsivo (1 col en móvil, 2 en tablet, 4 en escritorio) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-        {/* Tarjeta 1: Secciones */}
+        {/* Secciones */}
         <div className="bg-white rounded-xl border border-slate-200 p-5 sm:p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between space-y-4">
           <div className="space-y-2">
             <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
@@ -29,13 +28,13 @@ export default function AdminDashboardPage() {
           </div>
           <Link
             href="/admin/sections"
-            className="w-full text-center py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-medium text-xs sm:text-sm rounded-lg transition-colors block shadow-sm"
+            className="w-full text-center py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs sm:text-sm rounded-lg transition-colors block shadow-sm"
           >
             Gestionar Secciones
           </Link>
         </div>
 
-        {/* Tarjeta 2: Publicaciones */}
+        {/* Publicaciones */}
         <div className="bg-white rounded-xl border border-slate-200 p-5 sm:p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between space-y-4">
           <div className="space-y-2">
             <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
@@ -48,13 +47,13 @@ export default function AdminDashboardPage() {
           </div>
           <Link
             href="/admin/posts"
-            className="w-full text-center py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-medium text-xs sm:text-sm rounded-lg transition-colors block shadow-sm"
+            className="w-full text-center py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs sm:text-sm rounded-lg transition-colors block shadow-sm"
           >
             Gestionar Publicaciones
           </Link>
         </div>
 
-        {/* Tarjeta 3: Carrusel */}
+        {/* Carrusel */}
         <div className="bg-white rounded-xl border border-slate-200 p-5 sm:p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between space-y-4">
           <div className="space-y-2">
             <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
@@ -67,13 +66,13 @@ export default function AdminDashboardPage() {
           </div>
           <Link
             href="/admin/slides"
-            className="w-full text-center py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-medium text-xs sm:text-sm rounded-lg transition-colors block shadow-sm"
+            className="w-full text-center py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs sm:text-sm rounded-lg transition-colors block shadow-sm"
           >
             Gestionar Carrusel
           </Link>
         </div>
 
-        {/* Tarjeta 4: Configuración y Logo */}
+        {/* Configuración / Logo */}
         <div className="bg-white rounded-xl border border-slate-200 p-5 sm:p-6 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between space-y-4">
           <div className="space-y-2">
             <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
@@ -86,7 +85,7 @@ export default function AdminDashboardPage() {
           </div>
           <Link
             href="/admin/settings"
-            className="w-full text-center py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-medium text-xs sm:text-sm rounded-lg transition-colors block shadow-sm"
+            className="w-full text-center py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs sm:text-sm rounded-lg transition-colors block shadow-sm"
           >
             Cambiar Logo
           </Link>
