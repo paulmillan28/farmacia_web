@@ -23,8 +23,7 @@ export default function RootLayout({
           {children}
         </main>
 
-        {/* 2. Coloca el Footer al final */}
-        <Footer />
+      
       </body>
     </html>
   )
