@@ -26,12 +26,10 @@ export default function GlobalSearch({ sections }: GlobalSearchProps) {
   const [selectedItem, setSelectedItem] = useState<SearchResultItem | null>(null)
   const [isOpen, setIsOpen] = useState(false)
 
-  // Aplanar todas las secciones y publicaciones en una sola lista buscable
   const searchIndex = useMemo(() => {
     const list: SearchResultItem[] = []
 
     sections.forEach((sec) => {
-      // Agregar la sección como resultado
       list.push({
         type: 'section',
         id: sec.id,
@@ -39,7 +37,6 @@ export default function GlobalSearch({ sections }: GlobalSearchProps) {
         description: sec.description,
       })
 
-      // Agregar sus publicaciones
       sec.posts?.forEach((post) => {
         list.push({
           type: 'post',
@@ -56,7 +53,6 @@ export default function GlobalSearch({ sections }: GlobalSearchProps) {
     return list
   }, [sections])
 
-  // Filtrar según el término de búsqueda
   const results = useMemo(() => {
     const q = query.trim().toLowerCase()
     if (!q) return []
@@ -68,6 +64,22 @@ export default function GlobalSearch({ sections }: GlobalSearchProps) {
         (item.sectionTitle && item.sectionTitle.toLowerCase().includes(q))
     )
   }, [query, searchIndex])
+
+  // Manejar el clic en un resultado de la búsqueda
+  const handleSelect = (item: SearchResultItem) => {
+    setIsOpen(false)
+
+    if (item.type === 'section') {
+      // Si es una sección, hace scroll suave hasta su posición en la página
+      const element = document.getElementById(`section-${item.id}`)
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }
+    } else {
+      // Si es una publicación, abre el modal con sus detalles
+      setSelectedItem(item)
+    }
+  }
 
   return (
     <div className="relative w-full max-w-md">
@@ -110,13 +122,10 @@ export default function GlobalSearch({ sections }: GlobalSearchProps) {
               {results.map((item) => (
                 <button
                   key={`${item.type}-${item.id}`}
-                  onClick={() => {
-                    setSelectedItem(item)
-                    setIsOpen(false)
-                  }}
+                  onClick={() => handleSelect(item)}
                   className="w-full flex items-center gap-3 p-2.5 hover:bg-slate-50 rounded-xl text-left transition-colors group"
                 >
-                  {/* Thumbnail / Icono */}
+                  {/* Icono / Imagen */}
                   {item.image_url ? (
                     <img
                       src={item.image_url}
@@ -133,7 +142,7 @@ export default function GlobalSearch({ sections }: GlobalSearchProps) {
                     </div>
                   )}
 
-                  {/* Info */}
+                  {/* Texto */}
                   <div className="flex-1 min-w-0">
                     <p className="text-xs font-semibold text-slate-900 truncate group-hover:text-[#260da2] transition-colors">
                       {item.title}
@@ -157,7 +166,7 @@ export default function GlobalSearch({ sections }: GlobalSearchProps) {
         </div>
       )}
 
-      {/* Modal de Detalle al hacer clic en un resultado */}
+      {/* Modal para publicaciones */}
       <SearchResultModal
         item={selectedItem}
         onClose={() => setSelectedItem(null)}

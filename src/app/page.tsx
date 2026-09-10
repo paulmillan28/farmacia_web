@@ -79,7 +79,11 @@ export default async function HomePage() {
           </div>
         ) : (
           sections.map((section) => (
-            <section key={section.id} className="space-y-4">
+            <section
+              key={section.id}
+              id={`section-${section.id}`}
+              className="space-y-4 scroll-mt-24"
+            >
               <div className="border-b border-slate-200 pb-2">
                 <h3 className="text-2xl font-bold text-slate-800">{section.title}</h3>
                 {section.description && (
