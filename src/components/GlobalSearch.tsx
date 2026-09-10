@@ -65,26 +65,23 @@ export default function GlobalSearch({ sections }: GlobalSearchProps) {
     )
   }, [query, searchIndex])
 
-  // Manejar el clic en un resultado de la búsqueda
   const handleSelect = (item: SearchResultItem) => {
     setIsOpen(false)
 
     if (item.type === 'section') {
-      // Si es una sección, hace scroll suave hasta su posición en la página
       const element = document.getElementById(`section-${item.id}`)
       if (element) {
         element.scrollIntoView({ behavior: 'smooth', block: 'start' })
       }
     } else {
-      // Si es una publicación, abre el modal con sus detalles
       setSelectedItem(item)
     }
   }
 
   return (
-    <div className="relative w-full max-w-md">
+    <div className="relative w-full">
       {/* Input de Búsqueda */}
-      <div className="relative">
+      <div className="relative w-full">
         <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
         <input
           type="text"
@@ -94,7 +91,7 @@ export default function GlobalSearch({ sections }: GlobalSearchProps) {
             setIsOpen(true)
           }}
           onFocus={() => setIsOpen(true)}
-          placeholder="Buscar medicamentos, secciones, ofertas..."
+          placeholder="Buscar medicamentos..."
           className="w-full pl-10 pr-9 py-2 bg-slate-100 hover:bg-slate-200/70 focus:bg-white border border-transparent focus:border-[#260da2] rounded-xl text-sm text-slate-800 placeholder-slate-400 transition-all outline-none"
         />
         {query && (
@@ -110,9 +107,9 @@ export default function GlobalSearch({ sections }: GlobalSearchProps) {
         )}
       </div>
 
-      {/* Lista Desplegable de Resultados */}
+      {/* Lista Desplegable de Resultados Adaptable para Móviles */}
       {isOpen && query.trim().length > 0 && (
-        <div className="absolute left-0 right-0 top-full mt-2 bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden z-40 max-h-80 overflow-y-auto">
+        <div className="absolute left-1/2 -translate-x-1/2 sm:translate-x-0 sm:left-0 top-full mt-2 w-[90vw] sm:w-full max-w-md bg-white rounded-2xl shadow-2xl border border-slate-100 overflow-hidden z-50 max-h-80 overflow-y-auto">
           {results.length === 0 ? (
             <div className="p-4 text-center text-xs text-slate-500">
               No se encontraron resultados para &quot;{query}&quot;
