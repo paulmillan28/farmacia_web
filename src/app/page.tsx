@@ -111,7 +111,7 @@ export default async function HomePage() {
             <div className="pt-2">
               <p className="text-xs font-semibold mb-2">Síguenos en</p>
               <a
-                href="https://facebook.com"
+                href="https://www.facebook.com/FARMAANDMED?mibextid=wwXIfr&rdid=NFWmqBdKR6xzwqPc&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1AjwMNvb6u%2F%3Fmibextid%3DwwXIfr#"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors shadow"
@@ -129,7 +129,7 @@ export default async function HomePage() {
             <div className="space-y-3 text-xs text-blue-100">
               <div className="flex items-start gap-2">
                 <span>📍</span>
-                <span>Manuel J. Clouthier 4477 col Lomas del Ébano, Mazatlán, Sinaloa</span>
+                <span>Av. Manuel J. Clouthier 4477 col Lomas del Ébano, Mazatlán, Sinaloa</span>
               </div>
               <div className="flex items-center gap-2">
                 <span>📞</span>
@@ -142,7 +142,7 @@ export default async function HomePage() {
             <h4 className="text-xl font-bold">Nuestra Ubicación</h4>
             <div className="rounded-xl overflow-hidden border border-white/20 shadow-lg h-44">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3665.8!2d-106.38!3d23.24!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjPCsDE0JzI0LjAiTiAxMDbDwrAyMic0OC4wIlc!5e0!3m2!1ses!2smx!4v1620000000000!5m2!1ses!2smx"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3665.7085721112644!2d-106.3859152206543!3d23.253689699999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x869f53b801a6ec69%3A0x55cd9de33aab8b9!2sFarmacia%20Farma%26Med!5e0!3m2!1ses!2smx!4v1788902050581!5m2!1ses!2smx"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
