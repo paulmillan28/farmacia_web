@@ -122,7 +122,7 @@ export default function PostList({
                   <img
                     src={post.image_url}
                     alt={post.title}
-                    className="w-12 h-12 object-cover rounded-lg"
+                    className="w-12 h-12 object-contain rounded-lg"
                   />
                 )}
                 <div>

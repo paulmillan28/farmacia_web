@@ -47,7 +47,7 @@ export default async function AdminSlidesPage() {
                   <img
                     src={slide.image_url}
                     alt={slide.title || 'Slide'}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain"
                   />
                   <span className="absolute top-2 left-2 bg-slate-900/70 text-white text-xs font-bold px-2 py-1 rounded-md backdrop-blur-sm">
                     #{index + 1}

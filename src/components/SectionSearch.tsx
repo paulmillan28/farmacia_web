@@ -78,7 +78,7 @@ export default function SectionSearch({ posts, sectionTitle }: SectionSearchProp
                 <img
                   src={post.image_url}
                   alt={post.title}
-                  className="h-48 w-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="h-48 w-full object-contain group-hover:scale-105 transition-transform duration-300"
                 />
               ) : (
                 <div className="h-48 w-full bg-slate-100 flex items-center justify-center text-slate-400">
@@ -128,7 +128,7 @@ export default function SectionSearch({ posts, sectionTitle }: SectionSearchProp
                 <img
                   src={selectedPost.image_url}
                   alt={selectedPost.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain"
                 />
               </div>
             )}

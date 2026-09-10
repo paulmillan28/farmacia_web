@@ -57,7 +57,7 @@ export default function HeroCarousel({ slides = [] }: { slides?: Slide[] }) {
           <img
             src={slide.image_url}
             alt={slide.title}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-contain"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-slate-900/50 to-transparent" />
 

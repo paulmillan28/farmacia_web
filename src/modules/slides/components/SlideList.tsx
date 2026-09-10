@@ -109,7 +109,7 @@ export default function SlideList({ slides }: { slides: Slide[] }) {
                 <img
                   src={slide.image_url}
                   alt={slide.title}
-                  className="w-16 h-12 object-cover rounded"
+                  className="w-16 h-12 object-contain rounded"
                 />
                 <div>
                   <p className="font-medium text-slate-800">{slide.title}</p>
