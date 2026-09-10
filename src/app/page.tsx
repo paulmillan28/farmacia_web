@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { getPharmacySections } from '@/modules/sections/services'
 import HeroCarousel from '@/components/HeroCarousel'
 import SectionSearch from '@/components/SectionSearch'
+import GlobalSearch from '@/components/GlobalSearch'
 
 export default async function HomePage() {
   const sections = await getPharmacySections()
@@ -29,19 +30,25 @@ export default async function HomePage() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900">
-      {/* Header / Navbar con Logo Dinámico */}
+      {/* Header / Navbar con Logo Dinámico y Buscador Global */}
       <header className="sticky top-0 z-50 bg-white border-b border-slate-200">
-        <div className="max-w-6xl mx-auto px-4 h-20 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
+        <div className="max-w-6xl mx-auto px-4 h-20 flex items-center justify-between gap-4">
+          <Link href="/" className="flex items-center gap-2 shrink-0">
             <img
               src={logoUrl}
-              alt="Farmacia FARMA&MED "
-              className="h-14 md:h-16 w-auto object-contain"
+              alt="Farmacia FARMA&MED"
+              className="h-12 md:h-16 w-auto object-contain"
             />
           </Link>
+
+          {/* Buscador General */}
+          <div className="flex-1 max-w-md mx-2">
+            <GlobalSearch sections={sections} />
+          </div>
+
           <Link
             href="/login"
-            className="px-4 py-2 text-sm font-medium text-white bg-[#260da2] hover:bg-[#1e0a82] rounded-lg transition-colors shadow-sm"
+            className="shrink-0 px-4 py-2 text-sm font-medium text-white bg-[#260da2] hover:bg-[#1e0a82] rounded-lg transition-colors shadow-sm"
           >
             Iniciar Sesión
           </Link>
@@ -80,7 +87,6 @@ export default async function HomePage() {
                 )}
               </div>
 
-              {/* Componente cliente con buscador por sección, scroll lateral y modal */}
               <SectionSearch
                 posts={section.posts || []}
                 sectionTitle={section.title}
@@ -93,7 +99,6 @@ export default async function HomePage() {
       {/* Footer Completo con Fondo #260da2 */}
       <footer className="bg-[#260da2] text-white border-t border-blue-900/40">
         <div className="max-w-6xl mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Columna 1: Información de la marca */}
           <div className="space-y-4">
             <h4 className="text-xl font-bold">Farmacia</h4>
             <p className="text-xs text-blue-100 leading-relaxed opacity-90">
@@ -102,7 +107,7 @@ export default async function HomePage() {
             <div className="pt-2">
               <p className="text-xs font-semibold mb-2">Síguenos en</p>
               <a
-                href="https://www.facebook.com/FARMAANDMED?mibextid=wwXIfr&rdid=NFWmqBdKR6xzwqPc&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1AjwMNvb6u%2F%3Fmibextid%3DwwXIfr#"
+                href="https://facebook.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors shadow"
@@ -115,27 +120,25 @@ export default async function HomePage() {
             </div>
           </div>
 
-          {/* Columna 2: Contacto */}
           <div className="space-y-4">
             <h4 className="text-xl font-bold">Contacto</h4>
             <div className="space-y-3 text-xs text-blue-100">
               <div className="flex items-start gap-2">
-                <span className="text-emerald-400">📍</span>
-                <span>Av. Manuel J. Clouthier 4477 col Lomas del Ébano, Mazatlán, Sinaloa</span>
+                <span>📍</span>
+                <span>Manuel J. Clouthier 4477 col Lomas del Ébano, Mazatlán, Sinaloa</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-emerald-400">📞</span>
+                <span>📞</span>
                 <span>+52 6692068630</span>
               </div>
             </div>
           </div>
 
-          {/* Columna 3: Mapa / Ubicación */}
           <div className="space-y-4">
             <h4 className="text-xl font-bold">Nuestra Ubicación</h4>
             <div className="rounded-xl overflow-hidden border border-white/20 shadow-lg h-44">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3665.7085721112644!2d-106.3859152206543!3d23.253689699999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x869f53b801a6ec69%3A0x55cd9de33aab8b9!2sFarmacia%20Farma%26Med!5e0!3m2!1ses!2smx!4v1788902050581!5m2!1ses!2smx"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3665.8!2d-106.38!3d23.24!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjPCsDE0JzI0LjAiTiAxMDbDwrAyMic0OC4wIlc!5e0!3m2!1ses!2smx!4v1620000000000!5m2!1ses!2smx"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
@@ -146,7 +149,6 @@ export default async function HomePage() {
           </div>
         </div>
 
-        {/* Copyright */}
         <div className="border-t border-white/10 py-4 text-center text-xs text-blue-200">
           © {new Date().getFullYear()} Farmacia FARMA&MED. Todos los derechos reservados.
         </div>
